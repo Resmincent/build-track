@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\HomeController;
+
+use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RequestForMaterialController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +21,42 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+
+
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::resource('request-for-materials', RequestForMaterialController::class)
+        ->only(['index', 'create', 'store', 'destroy']);
+
+    // Custom routes for approval and rejection
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
+    Route::post('/users', [UsersController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UsersController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
+
+    Route::patch('/request-for-materials/{requestForMaterial}/approve', [RequestForMaterialController::class, 'approve'])
+        ->name('request-for-materials.approve');
+
+    Route::patch('/request-for-materials/{requestForMaterial}/reject', [RequestForMaterialController::class, 'reject'])
+        ->name('request-for-materials.reject');
+
+    Route::resource('categories', CategoryController::class);
+
+    Route::resource('materials', MaterialController::class);
+});

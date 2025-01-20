@@ -24,28 +24,32 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
+            'phone' => 'nullable|string|max:255',
             'current_password' => 'nullable|required_with:new_password',
             'new_password' => 'nullable|min:8|max:12|required_with:current_password',
             'password_confirmation' => 'nullable|min:8|max:12|required_with:new_password|same:new_password'
         ]);
 
+        $user = Auth::user();
 
-        $user = User::findOrFail(Auth::user()->id);
-        $user->name = $request->input('name');
-        $user->last_name = $request->input('last_name');
-        $user->email = $request->input('email');
+        $user->update([
+            'name' => $request->input('name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+        ]);
 
-        if (!is_null($request->input('current_password'))) {
+        if ($request->filled('current_password')) {
             if (Hash::check($request->input('current_password'), $user->password)) {
-                $user->password = $request->input('new_password');
+                $user->update([
+                    'password' => Hash::make($request->input('new_password')),
+                ]);
             } else {
-                return redirect()->back()->withInput();
+                return redirect()->back()->withErrors(['current_password' => 'Password lama tidak sesuai.'])->withInput();
             }
         }
 
-        $user->save();
-
-        return redirect()->route('profile')->withSuccess('Profile updated successfully.');
+        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 }

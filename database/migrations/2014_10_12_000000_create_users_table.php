@@ -17,6 +17,8 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('last_name');
+            $table->string('phone')->nullable();
+            $table->boolean('is_admin')->default(false);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -25,7 +27,7 @@ class CreateUsersTable extends Migration
         });
     }
 
-    /**
+    /**xq
      * Reverse the migrations.
      *
      * @return void

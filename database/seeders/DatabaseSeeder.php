@@ -13,6 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'last_name' => 'Admin',
+            'password' => '@admin123',
+            'email' => 'admin@superadmin.com',
+            'is_admin' => true,
+        ]);
     }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Material;
 use App\Models\RequestForMaterial;
-use App\Models\User;
-use Illuminate\Http\Request;
+
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -32,23 +32,40 @@ class HomeController extends Controller
 
         if (auth()->user()->is_admin) {
             $bahan = Material::count();
-            $totalStock = Material::sum('stock');
             $kategori = Category::count();
             $totalPengajuan = RequestForMaterial::count();
             $stockUnderLimit = Material::where('stock', '<', 10)->get();
 
             $widget = [
                 'bahan' => $bahan,
-                'stokBahan' => $totalStock,
                 'kategori'  => $kategori,
                 'totalPengajuan' => $totalPengajuan,
                 'stockUnderLimit' => $stockUnderLimit->count()
             ];
 
-            // Get the last 5 pengajuan for the admin's dashboard
-            $pengajuanTerakhir = RequestForMaterial::latest()->limit(5)->get();
 
-            return view('home', compact('widget', 'stockUnderLimit', 'pengajuanTerakhir'));
+            $pengajuanTerakhir = RequestForMaterial::latest()->limit(10)->get();
+            $getMonthlyRequest = RequestForMaterial::where('status', 'approved')
+                ->whereMonth('created_at', date('m'))
+                ->whereYear('created_at', date('Y'))
+                ->get();
+
+            $lastMonth = Carbon::now()->subMonth();
+
+            $materials = Material::with('category')
+                ->withSum(['requestForMaterials as used_quantity' => function ($query) use ($lastMonth) {
+                    $query->where('status', 'approved')
+                        ->where('created_at', '>=', $lastMonth);
+                }], 'quantity')
+                ->latest()
+                ->get()
+                ->map(function ($material) use ($lastMonth) {
+                    $material->total_used_value = $material->getTotalUsedValueLastMonth();
+                    return $material;
+                });
+
+
+            return view('home', compact('widget', 'stockUnderLimit', 'pengajuanTerakhir', 'materials'));
         }
 
         // For non-admin users, show their pengajuan

@@ -19,6 +19,7 @@ class CreateMaterialsTable extends Migration
             $table->string('name', 100);
             $table->integer('stock');
             $table->string('unit', 100);
+            $table->decimal('price', 10, 2)->default(0);
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
         });

@@ -102,9 +102,14 @@
             <li class="nav-item {{ Nav::isRoute('request-for-materials.index') }}">
                 <a class="nav-link" href="{{ route('request-for-materials.index') }}">
                     <i class="fas fa-fw fa-envelope-open-text"></i>
-                    <span>{{ __('Laporan Permmintaan') }}</span></a>
+                    <span>{{ __('Laporan Permintaan') }}</span></a>
             </li>
 
+            <li class="nav-item {{ Nav::isRoute('admin.reports.monthly-stock') }}">
+                <a class="nav-link" href="{{ route('admin.reports.monthly-stock') }}">
+                    <i class="fas fa-fw fa-envelope-open"></i>
+                    <span>{{ __('Laporan Bulanan') }}</span></a>
+            </li>
 
             <hr class="sidebar-divider">
             <!-- Heading -->

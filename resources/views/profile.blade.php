@@ -30,7 +30,11 @@
             </div>
             <div class="card-body text-center">
                 <h5 class="font-weight-bold">{{ Auth::user()->name }}</h5>
+                @if (Auth::user()->is_admin)
                 <p>Administrator</p>
+                @else
+                <p>Pengguna</p>
+                @endif
             </div>
         </div>
     </div>

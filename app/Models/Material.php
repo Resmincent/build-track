@@ -4,12 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Material extends Model
 {
-    use HasFactory;
-
-    protected $fillable = ['name', 'stock', 'unit', 'category_id'];
+    protected $fillable = [
+        'material_id',
+        'name',
+        'description',
+        'category_id',
+        'price',
+        'stock',
+        'unit'
+    ];
 
     public function category()
     {
@@ -29,5 +37,22 @@ class Material extends Model
         }
 
         return $prefix . '-' . $newNumber;
+    }
+
+    public function getTotalUsedValueLastMonth()
+    {
+        $lastMonth = Carbon::now()->subMonth();
+
+        $totalUsed = $this->requestForMaterials()
+            ->where('status', 'approved')
+            ->where('created_at', '>=', $lastMonth)
+            ->sum('quantity');
+
+        return $totalUsed * $this->price;
+    }
+
+    public function requestForMaterials()
+    {
+        return $this->hasMany(RequestForMaterial::class);
     }
 }

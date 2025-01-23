@@ -74,6 +74,7 @@
                                 <th>Jumlah</th>
                                 <th>Tanggal Dibutuhkan</th>
                                 <th>Status</th>
+                                <th>Alasan Ditolak</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -93,6 +94,9 @@
                                     @elseif($request->status === 'rejected')
                                     <span class="badge badge-danger">Ditolak</span>
                                     @endif
+                                </td>
+                                <td>
+                                    {{ $request->reject_reason }}
                                 </td>
                                 <td>
                                     @if(auth()->user()->is_admin)

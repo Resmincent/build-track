@@ -34,6 +34,7 @@
                             <button type="submit" class="btn btn-primary btn-sm">{{ __('Cari') }}</button>
                         </form>
                     </div>
+
                     <div class="col-lg-4 col-md-6 col-12 d-flex justify-content-md-end justify-content-center">
                         <button type="button" class="btn btn-sm btn-primary w-100 w-md-50" data-toggle="modal" data-target="#createMaterialModal">
                             Tambah Bahan
@@ -44,12 +45,11 @@
                     <table class="table align-middle border rounded table-row-dashed fs-6 g-5">
                         <thead>
                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-                                <th>No</th>
                                 <th class="min-w-100px">ID Bahan</th>
                                 <th class="min-w-100px">Kategori</th>
                                 <th class="min-w-100px">Nama Bahan</th>
                                 <th class="min-w-100px">Stok Barang</th>
-                                <th class="min-w-100px">Satuan</th>
+                                <th class="min-w-100px">Harga</th>
                                 <th class="min-w-100px">Tanggal Dibuat</th>
                                 <th class="min-w-100px">Aksi</th>
                             </tr>
@@ -57,16 +57,22 @@
                         <tbody class="fw-semibold text-gray-600">
                             @foreach ($materials as $index => $material)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
                                 <td>{{ $material->material_id }}</td>
                                 <td>{{ $material->category->name }}</td>
                                 <td>{{ $material->name }}</td>
-                                <td>{{ $material->stock }}</td>
-                                <td>{{ $material->unit }}</td>
+                                <td>
+                                    <div>
+                                        {{ $material->stock }}
+                                        <span class="badge rounded-pill ms-1">{{ $material->unit }}
+                                    </div>
+                                </td>
+                                <td>Rp {{ number_format($material->price, 0, ',', '.') }}</td>
                                 <td>{{ $material->created_at->format('d/m/Y') }}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editMaterialModal-{{ $material->id }}">Edit</button>
-                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteMaterialModal-{{ $material->id }}">Hapus</button>
+                                    <div class="d-flex">
+                                        <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editMaterialModal-{{ $material->id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteMaterialModal-{{ $material->id }}"><i class="fas fa-trash"></i></button>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -112,6 +118,15 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label for="price" class="form-label required">Harga</label>
+                        <input type="number" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}" required min="0">
+                        @error('price')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
 
                     <div class="row">
                         <div class="col-md-6">
@@ -185,6 +200,15 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="form-group mb-3">
+                        <label for="price_{{ $material->id }}" class="form-label required">Harga</label>
+                        <input type="number" class="form-control @error('price') is-invalid @enderror" id="price_{{ $material->id }}" name="price" value="{{ old('price', $material->price) }}" required min="0">
+                        @error('price')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
 
                     <div class="row">
                         <div class="col-md-6">

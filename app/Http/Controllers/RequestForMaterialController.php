@@ -48,7 +48,7 @@ class RequestForMaterialController extends Controller
      */
     public function create()
     {
-        $materials = Material::all();
+        $materials = Material::select('id', 'name', 'price', 'unit', 'stock')->get();
         return view('layouts.admin.pengajuan.create', compact('materials'));
     }
 
@@ -125,7 +125,7 @@ class RequestForMaterialController extends Controller
         }
 
         $validated = $request->validate([
-            'rejection_reason' => 'required|string|max:255'
+            'reject_reason' => 'required|string|max:255'
         ]);
 
         if ($requestForMaterial->status !== 'pending') {
@@ -135,6 +135,7 @@ class RequestForMaterialController extends Controller
 
         $requestForMaterial->update([
             'status' => 'rejected',
+            'reject_reason' => $validated['reject_reason'] // Tambahkan baris ini
         ]);
 
         $whatsappNumber = preg_replace('/[^0-9]/', '', $requestForMaterial->user->phone);
@@ -143,7 +144,7 @@ class RequestForMaterialController extends Controller
             . "Material: {$requestForMaterial->material->name}\n"
             . "Kuantitas: {$requestForMaterial->quantity}\n"
             . "Tanggal Diperlukan: " . $requestForMaterial->date_needed->format('d/m/Y') . "\n"
-            . "Alasan penolakan: " . $requestForMaterial->reject_reason . "\n\n"
+            . "Alasan penolakan: " . $validated['reject_reason'] . "\n\n" // Ubah bagian ini
             . "Silakan hubungi admin untuk informasi lebih lanjut.";
         $whatsappUrl = "https://api.whatsapp.com/send?phone=" . $whatsappNumber . "&text=" . urlencode($message);
 

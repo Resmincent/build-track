@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\MonthlyStockReportController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RequestForMaterialController;
@@ -55,6 +56,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/request-for-materials/{requestForMaterial}/reject', [RequestForMaterialController::class, 'reject'])
         ->name('request-for-materials.reject');
+
+    Route::get('/admin/reports/monthly-stock', [MonthlyStockReportController::class, 'index'])
+        ->name('admin.reports.monthly-stock');
 
     Route::resource('categories', CategoryController::class);
 

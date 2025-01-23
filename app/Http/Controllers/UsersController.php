@@ -69,7 +69,7 @@ class UsersController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
-            'is_admin' => 'required|boolean',
+            'is_admin' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -79,11 +79,12 @@ class UsersController extends Controller
         }
 
         $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->is_admin = $request->is_admin;
+        $user->name = $request->input('name');
+        $user->last_name = $request->input('last_name', null);
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone', null);
+        $user->is_admin = $request->has('is_admin') ? 1 : 0;
+
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

@@ -68,12 +68,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-sm-9 offset-sm-3">
+                            <div class="col-sm-9 offset-sm-3 d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-1"></i> Submit Request
+                                    Submit Request
                                 </button>
                                 <a href="{{ route('request-for-materials.index') }}" class="btn btn-secondary ms-2">
-                                    <i class="fas fa-times me-1"></i> Cancel
+                                    Cancel
                                 </a>
                             </div>
                         </div>

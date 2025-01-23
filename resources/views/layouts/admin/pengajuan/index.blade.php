@@ -109,16 +109,7 @@
                                     </button>
                                     @endif
                                     @endif
-
-                                    @if(auth()->user()->is_admin || auth()->id() === $request->user_id)
-                                    <form action="{{ route('request-for-materials.destroy', $request->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus pengajuan ini?')">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                    @endif
+                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deletePengajuanModal-{{ $request->id }}">Hapus</button>
                                 </td>
                             </tr>
                             @empty
@@ -215,6 +206,34 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     <button type="submit" class="btn btn-danger">Tolak</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+{{-- Delete modal --}}
+@foreach ($requests as $request)
+<div class="modal fade" id="deletePengajuanModal-{{ $request->id }}" tabindex="-1" aria-labelledby="deletePengajuanModalLabel-{{ $request->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('request-for-materials.destroy', $request->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletePengajuanModalLabel-{{ $request->id }}">Hapus Bahan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus pengajuan bahan dari "{{ $request->user->full_name }}"?</p>
+                    <p class="text-danger"><small>Tindakan ini tidak dapat dibatalkan.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-danger">Hapus</button>
                 </div>
             </form>
         </div>

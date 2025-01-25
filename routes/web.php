@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\MonthlyStockReportController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseMaterialController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RequestForMaterialController;
 use App\Http\Controllers\UsersController;
@@ -43,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('request-for-materials', RequestForMaterialController::class)
         ->only(['index', 'create', 'store', 'destroy']);
 
+
+    Route::resource('purchase-materials', PurchaseMaterialController::class)
+        ->only(['index', 'create', 'store', 'destroy']);
+
     // Custom routes for approval and rejection
     Route::get('/users', [UsersController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
@@ -56,6 +61,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/request-for-materials/{requestForMaterial}/reject', [RequestForMaterialController::class, 'reject'])
         ->name('request-for-materials.reject');
+
+    Route::patch('/purchase-materials/{purchaseMaterial}/approve', [PurchaseMaterialController::class, 'approve'])
+        ->name('purchase-materials.approve');
+
+    Route::patch('/purchase-materials/{purchaseMaterial}/reject', [PurchaseMaterialController::class, 'reject'])
+        ->name('purchase-materials.reject');
 
     Route::get('/admin/reports/monthly-stock', [MonthlyStockReportController::class, 'index'])
         ->name('admin.reports.monthly-stock');

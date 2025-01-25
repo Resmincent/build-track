@@ -91,6 +91,12 @@
                     <span>{{ __('Ajukan Permintaan Bahan') }}</span></a>
             </li>
 
+            <li class="nav-item {{ Nav::isRoute('purchase-materials.create') }}">
+                <a class="nav-link" href="{{ route('purchase-materials.create') }}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>{{ __('Ajukan Permintaan Pembelian Bahan') }}</span></a>
+            </li>
+
             <li class="nav-item {{ Nav::isRoute('request-for-materials.index') }}">
                 <a class="nav-link" href="{{ route('request-for-materials.index') }}">
                     <i class="fas fa-fw fa-clipboard"></i>
@@ -103,6 +109,12 @@
                 <a class="nav-link" href="{{ route('request-for-materials.index') }}">
                     <i class="fas fa-fw fa-envelope-open-text"></i>
                     <span>{{ __('Laporan Permintaan') }}</span></a>
+            </li>
+
+            <li class="nav-item {{ Nav::isRoute('purchase-materials.index') }}">
+                <a class="nav-link" href="{{ route('purchase-materials.index') }}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>{{ __('Laporan Pembelian') }}</span></a>
             </li>
 
             <li class="nav-item {{ Nav::isRoute('admin.reports.monthly-stock') }}">

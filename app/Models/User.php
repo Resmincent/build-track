@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(RequestForMaterial::class);
     }
+
+    public function purchaseMaterials()
+    {
+        return $this->hasMany(PurchaseMaterial::class);
+    }
 }

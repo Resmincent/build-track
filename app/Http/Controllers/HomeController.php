@@ -44,7 +44,7 @@ class HomeController extends Controller
             ];
 
 
-            $pengajuanTerakhir = RequestForMaterial::latest()->limit(10)->get();
+            $pengajuanTerakhir = RequestForMaterial::where('status', 'approved')->latest()->limit(10)->get();
             $getMonthlyRequest = RequestForMaterial::where('status', 'approved')
                 ->whereMonth('created_at', date('m'))
                 ->whereYear('created_at', date('Y'))

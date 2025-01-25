@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Material;
+use App\Models\PurchaseMaterial;
 use App\Models\RequestForMaterial;
 
 use Carbon\Carbon;
@@ -43,7 +44,7 @@ class HomeController extends Controller
                 'stockUnderLimit' => $stockUnderLimit->count()
             ];
 
-
+            $purchasematerials = PurchaseMaterial::latest()->limit(10)->get();
             $pengajuanTerakhir = RequestForMaterial::where('status', 'approved')->latest()->limit(10)->get();
             $getMonthlyRequest = RequestForMaterial::where('status', 'approved')
                 ->whereMonth('created_at', date('m'))
@@ -65,13 +66,14 @@ class HomeController extends Controller
                 });
 
 
-            return view('home', compact('widget', 'stockUnderLimit', 'pengajuanTerakhir', 'materials'));
+            return view('home', compact('widget', 'stockUnderLimit', 'pengajuanTerakhir', 'materials', 'purchasematerials'));
         }
 
         // For non-admin users, show their pengajuan
+        $purchasematerials = PurchaseMaterial::where('user_id', auth()->id())->latest()->limit(5)->get();
         $pengajuanTerakhir = RequestForMaterial::where('user_id', auth()->id())->latest()->limit(5)->get();
         $stockAvailable = Material::where('stock', '>', 0)->get();
 
-        return view('home', compact('pengajuanTerakhir', 'stockAvailable'));
+        return view('home', compact('pengajuanTerakhir', 'stockAvailable', 'purchasematerials'));
     }
 }

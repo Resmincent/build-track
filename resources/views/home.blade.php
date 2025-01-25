@@ -156,19 +156,10 @@
             </div>
         </div>
     </div>
-</div>
-@endif
-
-
-
-@if (!Auth::user()->is_admin)
-
-<!-- Displaying Pengajuan Terakhir Table -->
-<div class="row">
-    <div class="col-lg-12 mb-4">
+    <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
         <div class="card shadow-sm">
             <div class="card-header border-0 bg-white">
-                <h6 class="card-title font-weight-bold text-dark mb-0">Pengajuan Terakhir</h6>
+                <h6 class="card-title font-weight-bold text-dark mb-0">Permintaan Bahan</h6>
             </div>
             <div class="card-body h-300px">
                 <div class="table-responsive">
@@ -178,17 +169,15 @@
                                 <th>No</th>
                                 <th>Material</th>
                                 <th>Jumlah</th>
-                                <th>Tanggal Dibutuhkan</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($pengajuanTerakhir as $index => $material)
+                            @forelse($purchasematerials as $index => $material)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $material->material->name }}</td>
                                 <td>{{ $material->quantity }}</td>
-                                <td>{{ $material->date_needed->format('d/m/Y')}}</td>
                                 <td><span class="badge badge-info">{{ $material->status }}</span></td>
                             </tr>
                             @empty
@@ -203,6 +192,11 @@
         </div>
     </div>
 </div>
+@endif
+
+
+
+@if (!Auth::user()->is_admin)
 <!-- Displaying Stock Available for Non-Admin Users -->
 <div class="row">
     <div class="col-lg-12 mb-4">
@@ -243,6 +237,88 @@
         </div>
     </div>
 </div>
+<!-- Displaying Pengajuan Terakhir Table -->
+<div class="row">
+    <div class="col-lg-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header border-0 bg-white">
+                <h6 class="card-title font-weight-bold text-dark mb-0">Pengajuan Terakhir</h6>
+            </div>
+            <div class="card-body h-300px">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="text-uppercase text-gray-500 fw-bold fs-7">
+                            <tr>
+                                <th>No</th>
+                                <th>Material</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal Dibutuhkan</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($pengajuanTerakhir as $index => $material)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $material->material->name }}</td>
+                                <td>{{ $material->quantity }}</td>
+                                <td>{{ $material->date_needed->format('d/m/Y')}}</td>
+                                <td><span class="badge badge-info">{{ $material->status }}</span></td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Tidak ada pengajuan terbaru</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header border-0 bg-white">
+                <h6 class="card-title font-weight-bold text-dark mb-0">Permintaan Material</h6>
+            </div>
+            <div class="card-body h-300px">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="text-uppercase text-gray-500 fw-bold fs-7">
+                            <tr>
+                                <th>No</th>
+                                <th>Material</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal Dibuat</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($purchasematerials as $index => $material)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $material->name }}</td>
+                                <td>{{ $material->quantity }}</td>
+                                <td>{{ $material->created_at->format('d/m/Y')}}</td>
+                                <td><span class="badge badge-info">{{ $material->status }}</span></td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">Tidak ada pengajuan terbaru</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endif
 
 

@@ -82,7 +82,7 @@
     <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
         <div class="card shadow-sm">
             <div class="card-header border-0 bg-white">
-                <h6 class="card-title font-weight-bold text-dark mb-0">Bahan Yang Terakhir Terpakai</h6>
+                <h6 class="card-title font-weight-bold text-dark mb-0">Bahan Yang Terakhir Diajukan</h6>
             </div>
             <div class="card-body h-300px">
                 <div class="table-responsive">
@@ -176,7 +176,7 @@
                             @forelse($purchasematerials as $index => $material)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $material->material->name }}</td>
+                                <td>{{ $material->name }}</td>
                                 <td>{{ $material->quantity }}</td>
                                 <td><span class="badge badge-info">{{ $material->status }}</span></td>
                             </tr>

@@ -55,4 +55,9 @@ class Material extends Model
     {
         return $this->hasMany(RequestForMaterial::class);
     }
+
+    public function purchaseMaterials()
+    {
+        return $this->hasMany(PurchaseMaterial::class, 'name', 'name');
+    }
 }

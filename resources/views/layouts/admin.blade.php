@@ -88,19 +88,25 @@
             <li class="nav-item {{ Nav::isRoute('request-for-materials.create') }}">
                 <a class="nav-link" href="{{ route('request-for-materials.create') }}">
                     <i class="fas fa-fw fa-envelope"></i>
-                    <span>{{ __('Ajukan Permintaan Bahan') }}</span></a>
+                    <span>{{ __('Ajukan Penggunaan Bahan') }}</span></a>
             </li>
 
             <li class="nav-item {{ Nav::isRoute('purchase-materials.create') }}">
                 <a class="nav-link" href="{{ route('purchase-materials.create') }}">
                     <i class="fas fa-fw fa-credit-card"></i>
-                    <span>{{ __('Ajukan Permintaan Pembelian Bahan') }}</span></a>
+                    <span>{{ __('Ajukan Pembelian Bahan') }}</span></a>
             </li>
 
             <li class="nav-item {{ Nav::isRoute('request-for-materials.index') }}">
                 <a class="nav-link" href="{{ route('request-for-materials.index') }}">
                     <i class="fas fa-fw fa-clipboard"></i>
-                    <span>{{ __('Permintaan Bahan') }}</span></a>
+                    <span>{{ __('Penggunaan Bahan') }}</span></a>
+            </li>
+
+            <li class="nav-item {{ Nav::isRoute('purchase-materials.index') }}">
+                <a class="nav-link" href="{{ route('purchase-materials.index') }}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>{{ __('Pembelian Bahan') }}</span></a>
             </li>
             @endif
 
@@ -108,7 +114,7 @@
             <li class="nav-item {{ Nav::isRoute('request-for-materials.index') }}">
                 <a class="nav-link" href="{{ route('request-for-materials.index') }}">
                     <i class="fas fa-fw fa-envelope-open-text"></i>
-                    <span>{{ __('Laporan Permintaan') }}</span></a>
+                    <span>{{ __('Laporan Penggunaan') }}</span></a>
             </li>
 
             <li class="nav-item {{ Nav::isRoute('purchase-materials.index') }}">

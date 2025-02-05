@@ -16,11 +16,24 @@ class PurchaseMaterial extends Model
         'reject_reason',
         'quantity',
         'user_id',
-        'unit'
+        'unit',
+        'category_id',
+        'material_id',
+
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function material()
+    {
+        return $this->belongsTo(Material::class);
     }
 }

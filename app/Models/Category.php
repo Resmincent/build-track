@@ -15,4 +15,9 @@ class Category extends Model
     {
         return $this->hasMany(Material::class);
     }
+
+    public function purchaseMaterials()
+    {
+        return $this->hasMany(PurchaseMaterial::class);
+    }
 }

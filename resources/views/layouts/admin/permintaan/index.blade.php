@@ -2,7 +2,7 @@
 
 @section('main-content')
 <!-- Page Heading -->
-<h1 class="h3 text-gray-800">{{ __('Permintaan Pemmbelian Bahan') }}</h1>
+<h1 class="h3 text-gray-800">{{ __('Permintaan Pembelian Bahan') }}</h1>
 
 @if (session('success'))
 <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert" id="autoDismissAlert">
@@ -34,22 +34,22 @@
                 <!-- Status Tabs -->
                 <ul class="nav nav-tabs mb-4">
                     <li class="nav-item">
-                        <a class="nav-link {{ request('status') === null ? 'active' : '' }}" href="{{ route('request-for-materials.index') }}">
+                        <a class="nav-link {{ request('status') === null ? 'active' : '' }}" href="{{ route('purchase-materials.index') }}">
                             Semua
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request('status') === 'pending' ? 'active' : '' }}" href="{{ route('request-for-materials.index', ['status' => 'pending']) }}">
+                        <a class="nav-link {{ request('status') === 'pending' ? 'active' : '' }}" href="{{ route('purchase-materials.index', ['status' => 'pending']) }}">
                             Pending
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request('status') === 'approved' ? 'active' : '' }}" href="{{ route('request-for-materials.index', ['status' => 'approved']) }}">
+                        <a class="nav-link {{ request('status') === 'approved' ? 'active' : '' }}" href="{{ route('purchase-materials.index', ['status' => 'approved']) }}">
                             Disetujui
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request('status') === 'rejected' ? 'active' : '' }}" href="{{ route('request-for-materials.index', ['status' => 'rejected']) }}">
+                        <a class="nav-link {{ request('status') === 'rejected' ? 'active' : '' }}" href="{{ route('purchase-materials.index', ['status' => 'rejected']) }}">
                             Ditolak
                         </a>
                     </li>
@@ -57,7 +57,7 @@
 
                 <div class="row mb-4">
                     <div class="col-md-8">
-                        <form method="GET" action="{{ route('request-for-materials.index') }}" class="d-flex">
+                        <form method="GET" action="{{ route('purchase-materials.index') }}" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm mr-2" placeholder="Cari permintaan..." value="{{ request()->input('search') }}">
                             <button type="submit" class="btn btn-primary btn-sm">Cari</button>
                         </form>
@@ -71,6 +71,7 @@
                                 <th>No</th>
                                 <th>Pemohon</th>
                                 <th>Material</th>
+                                <th>Kategori</th>
                                 <th>Jumlah</th>
                                 <th>Tanggal Permintaan</th>
                                 <th>Status</th>
@@ -84,6 +85,7 @@
                                 <td>{{ $index + $purchases->firstItem() }}</td>
                                 <td>{{ $purchase->user->name }}</td>
                                 <td>{{ $purchase->name }}</td>
+                                <td>{{ $purchase->category->name ?? '-' }}</td>
                                 <td>
                                     {{ $purchase->quantity }}
                                     <span>{{ $purchase->unit }}</span>

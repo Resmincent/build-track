@@ -68,8 +68,8 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-sm-9 offset-sm-3 d-flex mr-3">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-sm-9 offset-sm-3 d-flex">
+                                <button type="submit" class="btn btn-primary mr-3">
                                     Submit Request
                                 </button>
                                 <a href="{{ route('request-for-materials.index') }}" class="btn btn-secondary ms-2">

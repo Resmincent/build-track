@@ -10,19 +10,24 @@ class MaterialController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Material::with('category');
+        $query = Material::with(['category', 'purchaseMaterials' => function ($query) {
+            $query->where('status', 'approved');
+        }]);
 
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where('name', 'like', "%{$search}%")->orWhere('material_id', 'like', "%{$search}%")->orWhereHas('category', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('material_id', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
             });
         }
 
-
         $materials = $query->latest()->paginate(10);
-
         $categories = Category::all();
+
         return view('layouts.admin.material.index', compact('materials', 'categories'));
     }
 
